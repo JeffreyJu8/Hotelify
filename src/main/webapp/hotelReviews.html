@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="hotelReviews.css">
+<title>Hotel Search</title>
+<style>
+	.header {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	max-width: 1500px;
+	margin: auto; 
+	margin-left: 32px;
+	margin-right: 32px;
+	margin-bottom: 50px;
+  }
+
+  .nav-links {
+	margin-top: 25px;
+    display: flex;
+    gap: 1px;
+  }
+  
+  .header a {
+	font-size: 13px;
+    color: white;
+	font-family: 'arial';
+	text-decoration: none;
+	padding: 5px 10px;
+
+  }
+</style>
+</head>
+<body>
+	<div class="header">
+	  <div class="nav-links">
+	    <a href="homepage.html" class="button-link" id="homeLink">Home</a>
+	    <a href="login.html" class="button-link" id="loginSignupLink">Login / Sign Up</a>
+	    <a href="user.html" class="button-link" id="profileLink">Profile</a>
+	  	<a href="homepage.html" class="button-link" id="logoutLink">Logout</a> <!-- Added logout link -->
+	  </div>
+	</div>
+	
+	<h1 id="hotel-title" class="title">Hotel Reviews</h1>
+	
+	<div id="create-review">
+		<button type="button" onclick="createReview();">Create Review</button>
+	</div>
+	
+	<div id="reviews" class="flex-center">No Reviews!</div>
+	
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="hotelReviews.js"></script>
+	<script src="homepage.js"></script>
+</body>
+</html>

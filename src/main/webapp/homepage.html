@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joe's Table</title>
+<style>
+  body {
+  	background-image: linear-gradient(to bottom, #89CFF0, white);
+  }
+  
+  .header {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	max-width: 1500px;
+	margin: auto; 
+	margin-left: 32px;
+	margin-right: 32px;
+	margin-bottom: 50px;
+  }
+
+
+
+  .nav-links {
+	margin-top: 25px;
+    display: flex;
+    gap: 1px;
+  }
+  
+  .header a {
+	font-size: 13px;
+    color: white;
+	font-family: 'arial';
+	text-decoration: none;
+	padding: 5px 10px;
+
+  }
+  
+  .homepage-image {
+    display: block;
+    margin: auto; 
+    max-width: 1500px; 
+    margin-bottom: 30px;
+    
+  }
+
+  .homepage-image img {
+    display: block;
+    margin: auto; 
+    width: 500px;
+    height: auto; 
+    border-radius: 20px;
+  }
+
+  
+  .restaurant-search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .restaurant-search-bar {
+	margin-top: 5px;
+	justify-content: center;
+  	display: flex; 
+  	width: 500px; 
+  	gap: 15px;
+  }
+	
+  .restaurant-search-bar input{
+    display: flex;
+    width: 400px;
+    height: 22px;
+    margin-bottom: 20px;
+    margin-left: 45px;
+  }
+
+  
+  .search-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    background-color: mediumseagreen;
+    color: white; 
+    border: none;
+    padding: 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    height: 9px;
+    width: 80px;
+    gap: 40px;
+  }
+
+  .fa-magnifying-glass {
+    font-size: 13px; 
+  }
+  
+
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+  margin-top: 20px;
+}
+
+
+.mySlides {
+  display: none;
+}
+
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+#multithreading {
+	text-align: center;
+	padding: 30px;
+	margin: 5vh;
+	margin-left: 25vw;
+	margin-right: 25vw;
+	background-color: lightseagreen;
+	border-radius: 5px;
+	color: white;
+}
+
+
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+  
+</style>
+</head>
+<body>
+
+<div class="header">
+
+  <div class="nav-links">
+    <a href="homepage.html" class="button-link" id="homeLink">Home</a>
+    <a href="login.html" class="button-link" id="loginSignupLink">Login / Sign Up</a>
+    <a href="user.html" class="button-link" id="profileLink">Profile</a>
+  	<a href="homepage.html" class="button-link" id="logoutLink">Logout</a> <!-- Added logout link -->
+  </div>
+</div>
+
+<div class="homepage-image">
+	<img src="homelogo.jpeg" alt="homepage image">
+</div>
+
+
+<form action="/hotel-search" method="get" class="restaurant-search-container">
+  <div class="restaurant-search-bar">
+    <input type="text" placeholder="Hotel Name" name="restaurant">
+    
+    <a href="hotelSearch.html" class="search-button">
+    	<i class="fa-solid fa-magnifying-glass"></i>
+    </a>
+    
+  </div>
+
+ </form>
+ 
+ 
+<div class="slideshow-container">
+	
+  <div class="mySlides fade">
+    <img src="fernando-alvarez-rodriguez-M7GddPqJowg-unsplash.jpg" style="width:100%">
+  </div>
+
+  <div class="mySlides fade">
+    <img src="manuel-moreno-DGa0LQ0yDPc-unsplash.jpg" style="width:100%">
+  </div>
+
+  <div class="mySlides fade">
+    <img src="visualsofdana-T5pL6ciEn-I-unsplash.jpg" style="width:100%">
+  </div>
+
+
+  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+
+<div id="multithreading">
+	<h1>Most Recently Reviewed Hotel:</h1>
+	<hr>
+	<h3 id="recent-hotel-name"></h3>
+</div>
+
+
+	<script>
+		var slideIndex = 1;
+		showSlides(slideIndex);
+		
+		// Next/previous controls
+		function plusSlides(n) {
+		  showSlides(slideIndex += n);
+		}
+		
+		// Thumbnail image controls
+		function currentSlide(n) {
+		  showSlides(slideIndex = n);
+		}
+		
+		function showSlides(n) {
+		  var i;
+		  var slides = document.getElementsByClassName("mySlides");
+		  if (n > slides.length) {slideIndex = 1}    
+		  if (n < 1) {slideIndex = slides.length}
+		  for (i = 0; i < slides.length; i++) {
+		      slides[i].style.display = "none";  
+		  }
+		  slides[slideIndex-1].style.display = "block";  
+		}
+		
+		function getRecentHotel() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "multithreading", true);
+			xhttp.onload = function() {
+				console.log(this.responseText);
+				var hotel = JSON.parse(this.responseText);
+				var recentHeader = document.getElementById('recent-hotel-name');
+				recentHeader.innerHTML = hotel.hotelName;	
+			}
+			xhttp.send();
+		}
+		
+		window.onload = function(){ getRecentHotel(); };
+	</script>
+<script src="homepage.js"></script>
+</body>
+</html>

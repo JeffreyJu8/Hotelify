@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotelify</title>
+<style>
+  body {
+  	background-image: linear-gradient(to bottom, #89CFF0, white);
+  }
+  
+  .header {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	max-width: 1500px;
+	margin: auto; 
+	margin-left: 32px;
+	margin-right: 32px;
+	margin-bottom: 50px;
+  }
+
+
+
+  .nav-links {
+	margin-top: 25px;
+    display: flex;
+    gap: 1px;
+  }
+  
+  .header a {
+	font-size: 13px;
+    color: white;
+	font-family: 'arial';
+	text-decoration: none;
+	padding: 5px 10px;
+
+  }
+  
+  .homepage-image {
+    display: block;
+    margin: auto; 
+    max-width: 1500px; 
+    margin-bottom: 10px;
+    
+  }
+
+  .homepage-image img {
+    display: block;
+    margin: auto; 
+    width: 500px;
+    height: auto; 
+    border-radius: 20px;
+  }
+
+  
+  .restaurant-search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .restaurant-search-bar {
+	margin-top: 5px;
+	justify-content: center;
+  	display: flex; 
+  	width: 500px; 
+  	gap: 15px;
+  }
+	
+  .restaurant-search-bar input{
+    display: flex;
+    width: 400px;
+    height: 22px;
+    margin-bottom: 20px;
+    margin-left: 45px;
+  }
+
+  
+  .search-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    background-color: mediumseagreen;
+    color: white; 
+    border: none;
+    padding: 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    height: 28px;
+    width: 80px;
+    gap: 40px;
+  }
+
+  .fa-magnifying-glass {
+    font-size: 13px; 
+  }
+  
+
+#search-results {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    background-color: paleturquoise; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); 
+}
+
+
+
+  
+</style>
+</head>
+<body>
+
+<div class="header">
+
+  <div class="nav-links">
+    <a href="homepage.html" class="button-link">Home</a>
+    <a href="login_signup.html" class="button-link">Login / Sign Up</a>
+    <a href="user.html" class="button-link" id="profileLink">Profile</a>
+  	<a href="homepage.html" class="button-link" id="logoutLink">Logout</a>
+  </div>
+</div>
+
+<div class="homepage-image">
+	<img src="homelogo.jpeg" alt="homepage image">
+</div>
+
+
+<form id="search-form" action="hotel-search" method="get" class="restaurant-search-container">
+  <div class="restaurant-search-bar">
+    
+    
+    <input type="text" placeholder="Hotel Name" name="hotelName" id="hotel-name-input">
+    <button id="search-button" type="submit" class="search-button">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </div>
+</form>
+
+ 
+
+<div id="search-results">
+
+
+
+
+<script>
+    
+    
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('search-form');
+    
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        var hotelName = document.getElementById('hotel-name-input').value;
+        console.log("Hotel Name: ", hotelName);
+
+        var queryUrl = 'hotel-search?hotelName=' + encodeURIComponent(hotelName);
+        console.log("URL: ", queryUrl);
+
+        fetch(queryUrl)
+        	
+            .then(response => {
+				console.log(response);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                
+                return response.json();
+                
+            })
+            .then(data => {
+                // Process your data here
+                console.log("Data received:", data);
+                displayHotels(data);
+            }) 
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle the error, e.g., display a message to the user
+            });
+	    });
+	});
+
+
+	function displayHotels(response) {
+	    console.log("Received response:", response); 
+	    let hotels = response.results;
+	    
+	    const resultsContainer = document.getElementById('search-results');
+	    resultsContainer.innerHTML = '';
+	    
+	    hotels.forEach(results => {
+	        var hotelElement = document.createElement('div');
+			hotelElement.classList.add('hotel-item');
+        	hotelElement.setAttribute('data-place-id', results.place_id);
+
+
+			var photoReference = results.photos[0].photo_reference;
+
+            var img = document.createElement('img');
+            // Construct the URL for the image
+            img.src = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + photoReference + '&key=AIzaSyCPQJJxasTs23i9QyNJ7Zkz543o3gemWPI';
+
+            img.style.borderRadius = '5px';
+            hotelElement.appendChild(img);
+	        
+	        var name = document.createElement('h2');
+	        name.textContent = results.name;
+	        hotelElement.appendChild(name);
+	        
+	        var address = document.createElement('p');
+	        address.textContent = results.formatted_address;
+	        hotelElement.appendChild(address);
+	        
+	        hotelElement.addEventListener('click', function() {
+            	redirectToDetailsPage(results.place_id, results.name);
+        	});
+        	
+	        resultsContainer.appendChild(hotelElement);
+	    });
+	}
+	
+	
+	function redirectToDetailsPage(placeId, name) {
+    	window.location.href = 'hotelReviews.html?hotelID=' + encodeURIComponent(placeId) + "&name=" + name;
+	}
+	
+	
+	document.addEventListener('DOMContentLoaded', function() {
+	    console.log('DOM fully loaded'); // Check if DOMContentLoaded is working
+	    //initializeSearchForm();
+	    initializeUserCustomization();
+	    updateHomeButtonLink();
+	    attachLogoutEvent(); // Attach the logout event listener
+	});
+
+	
+	function initializeUserCustomization() {
+	    const sessionToken = localStorage.getItem('sessionToken');
+	    if (sessionToken) {
+	        customizePageForUser();
+	    } else {
+	        // Call this function to set the page for non-logged-in users
+	        customizePageForGuest();
+	    }
+	}
+	
+	function updateHomeButtonLink() {
+	    const sessionToken = localStorage.getItem('sessionToken');
+	    const homeLinks = document.querySelectorAll('a[href="homepage.html"]');
+	
+	    // Change home links based on sessionToken existence
+	    homeLinks.forEach(link => {
+	        link.setAttribute('href', sessionToken ? 'homepage.html' : 'homepage.html');
+	    });
+	}
+	
+	function attachLogoutEvent() {
+	    const logoutButton = document.getElementById('logoutLink');
+	    if (logoutButton) {
+	        logoutButton.addEventListener('click', function(event) {
+	            event.preventDefault(); // Prevent default navigation
+	            logoutUser();
+	        });
+	    }
+	}
+	function logoutUser() {
+	    localStorage.removeItem('sessionToken'); // Remove session token
+	    window.location.href = 'homepage.html'; // Redirect to home page after logout
+	}
+	function customizePageForUser() {
+	    // Hide the login/sign-up link and show the profile link
+	    document.getElementById('loginSignupLink').style.display = 'none';
+	    document.getElementById('profileLink').style.display = 'block';
+	    document.getElementById('logoutLink').style.display = 'block';
+	
+	    // Additional customizations for logged-in users can be done here
+	}
+	
+	function customizePageForGuest() {
+	    // Show the login/sign-up link and hide the profile link
+	    document.getElementById('loginSignupLink').style.display = 'block';
+	    document.getElementById('profileLink').style.display = 'none';
+	    document.getElementById('logoutLink').style.display = 'none';
+	
+	    // Additional customizations for guests can be done here
+	}
+
+
+</script>
+
+</body>
+</html>

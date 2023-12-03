@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Galada&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<header>
+    <h1>Hotelify</h1>
+    <nav>
+        <ul>
+            <li><a href="homepage.html">Home</a></li>
+            <li><a href="login.html">Login / Sign Up</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="container">
+		<!-- Embedding the palm.jpeg image -->
+		<img src="palm.jpeg" alt="Palm Image" class="palm-image">
+        <div class="login">
+            <h2>Login</h2>
+            <form>
+				<form action="/LoginServlet" method="post">
+				<!-- Username input -->
+				<!-- Place to display the error message -->
+        		<div id="login-error-message" style="color:red;"></div>
+				<label for="username">Username</label>
+				<input type="text" id="username" name="username">
+				
+				<!-- Password input -->
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password">
+
+                <button>Sign In</button>
+            </form>
+        </div>
+        <div class="signup">
+            <h2>Sign Up</h2>
+            <form action="/SignUpServlet" method="post">
+				<!-- Place to display the error message -->
+        		<div id="signup-error-message" style="color:red;"></div>
+				<!-- Email input -->
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" name="email">
+                
+                <!-- Username input -->
+                <label for="signup-username">Username</label>
+                <input type="text" id="signup-username" name="username">
+                
+                <!-- Password input -->
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" name="password">
+                
+                <!-- Confirm Password input -->
+                <label for="signup-confirm-password">Confirm Password</label>
+                <input type="password" id="signup-confirm-password" name="confirm-password">
+
+                <div class="terms">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">I have read and agree to all terms and conditions of Hotelify.</label>
+                </div>
+                <button type="submit">Create Account</button>
+                
+            </form>
+        </div>
+    </div>
+</main>
+<script src="login.js"></script>
+</body>
+</html>
